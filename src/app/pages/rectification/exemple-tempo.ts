@@ -1,10 +1,12 @@
 import { RequestData } from '../../interfaces/request-data';
 import { RequestAnswer } from '../../interfaces/request-answer';
+import { CurrentValue } from '../../interfaces/current-value';
 
-export const ACCESS_REQUEST: RequestData = {
+export const RECTIFICATION_REQUEST: RequestData = {
   requestId: 1,
   userClaim: 'Data Access',
   issuedAt: new Date('2023-01-01T12:00:00'),
+  newValue: "je veux changer en ca!",
   isIsolated: false,
   dataTypes: [
     {
@@ -16,21 +18,7 @@ export const ACCESS_REQUEST: RequestData = {
       answerByData: true,
       data: [
         { dataId: 1, dataName: 'Attribute1', answerByData: true },
-        { dataId: 2, dataName: 'Attribute2', answerByData: true },
       ],
-    },
-    {
-      dataTypeName: 'Type2',
-      primaryKeys: [
-        { primaryKeyId: 3, primaryKeyName: 'Key3' },
-        { primaryKeyId: 4, primaryKeyName: 'Key4' },
-      ],
-      data: [
-        { dataId: 3, dataName: 'Attribute3', answerByData: true },
-        { dataId: 4, dataName: 'Attribute4', answerByData: true },
-        { dataId: 5, dataName: 'Attribute5', answerByData: true },
-      ],
-      answerByData: true,
     },
   ],
   dataSubject: {
@@ -42,9 +30,13 @@ export const ACCESS_REQUEST: RequestData = {
   },
 }
 
-export const ACCESS_REQUEST_ANSWER: RequestAnswer = {
+export const RECTIFICATION_REQUEST_ANSWER: RequestAnswer = {
   requestId: 0,
   providerClaim: "Provider Claim",
   answerType: "Accepted",
   issuedAt: new Date('2023-10-01T12:00:00'),
+}
+
+export const CURRENT_VALUE: CurrentValue = {
+  currentValue: "C'est comme ca actuellement",
 }

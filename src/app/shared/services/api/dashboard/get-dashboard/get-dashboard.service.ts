@@ -5,7 +5,6 @@ import { DataSubjectCategory } from '../../../../../interfaces/data-subject-cate
 import { RequestFilter } from '../../../../../interfaces/request-filter';
 import { Request } from '../../../../../interfaces/request';
 import { SelectedRequest } from '../../../../../interfaces/selected-request';
-import { environment } from "../../../../../../environment/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,7 @@ import { environment } from "../../../../../../environment/environment";
 export class GetDashboardService {
   constructor(private httpClient: HttpClient) { }
 
-  private baseUrl = environment.api_url;
+  private baseUrl = 'http://localhost:8080';
   selectedRequest!: SelectedRequest;
 
   getDataSubjectCategory(): Observable<DataSubjectCategory[]> {

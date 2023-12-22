@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CompletedAccessRequest } from '../../../../../../interfaces/completed-access-request';
-import { environment } from "../../../../../../../environment/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +9,7 @@ import { environment } from "../../../../../../../environment/environment";
 export class PostAccessService {
   constructor(private httpClient: HttpClient) { }
 
-  private baseUrl = environment.api_url;
+  private baseUrl = 'http://localhost:8080';
 
   postCompletedAccessRequest(completedAccessRequest: CompletedAccessRequest): Observable<CompletedAccessRequest> {
     return this.httpClient.post<CompletedAccessRequest>(`${this.baseUrl}/right/postCompletedAccessRequest`, completedAccessRequest);

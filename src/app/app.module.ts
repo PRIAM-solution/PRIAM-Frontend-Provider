@@ -13,6 +13,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 // ADDED MODULES
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
@@ -50,6 +52,8 @@ import { SuppressionComponent } from './pages/suppression/suppression.component'
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatButtonToggleModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
