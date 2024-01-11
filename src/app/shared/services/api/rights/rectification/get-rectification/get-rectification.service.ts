@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { RequestData } from '../../../../../../interfaces/request-data';
 import { RequestAnswer } from '../../../../../../interfaces/request-answer';
 import { CurrentValue } from '../../../../../../interfaces/current-value';
+import {environment} from "../../../../../../../environment/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class GetRectificationService {
 
   constructor(private httpClient: HttpClient) { }
 
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = environment.api_right;
 
   getSelectedRectificationRequest(requestId: number, requestType: string): Observable<RequestData> {
     return this.httpClient.get<RequestData>(`${this.baseUrl}/right/getSelectedRectificationRequest`);

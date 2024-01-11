@@ -8,9 +8,6 @@ import { CurrentValue } from '../../interfaces/current-value';
 import { CompletedRectificationSuppressionRequest } from '../../interfaces/completed-rectification-suppression-request';
 import { SuccessErrorService } from '../../shared/services/success-error/success-error.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { RECTIFICATION_REQUEST } from './exemple-tempo';
-import { RECTIFICATION_REQUEST_ANSWER } from './exemple-tempo';
-import { CURRENT_VALUE } from './exemple-tempo';
 
 @Component({
   selector: 'app-rectification',
@@ -18,12 +15,12 @@ import { CURRENT_VALUE } from './exemple-tempo';
   styleUrls: ['./rectification.component.css']
 })
 export class RectificationComponent {
-  rectificationRequest: RequestData = RECTIFICATION_REQUEST;
-  rectificationRequestAnswer: RequestAnswer = RECTIFICATION_REQUEST_ANSWER;
+  rectificationRequest!: RequestData;
+  rectificationRequestAnswer!: RequestAnswer;
   response!: boolean;
   providerAnswer!: boolean;
   providerClaim: string = 'CLAIM!';
-  currentValue: CurrentValue = CURRENT_VALUE;
+  currentValue!: CurrentValue;
 
   constructor(
     private getRectificationService: GetRectificationService,

@@ -9,8 +9,6 @@ import { RequestAnswer } from '../../interfaces/request-answer';
 import { CompletedAccessRequest } from '../../interfaces/completed-access-request';
 import { SuccessErrorService } from '../../shared/services/success-error/success-error.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ACCESS_REQUEST } from './exemple-tempo';
-import { ACCESS_REQUEST_ANSWER } from './exemple-tempo';
 
 @Component({
   selector: 'app-access-request',
@@ -18,11 +16,11 @@ import { ACCESS_REQUEST_ANSWER } from './exemple-tempo';
   styleUrls: ['./access-request.component.css']
 })
 export class AccessRequestComponent implements OnInit {
-  accessRequest: RequestData = ACCESS_REQUEST;
-  accessRequestAnswer: RequestAnswer = ACCESS_REQUEST_ANSWER;
+  accessRequest!: RequestData;
+  accessRequestAnswer!: RequestAnswer;
   response!: boolean;
   providerDataClaims: string[] = ["","NON JE VEUX PAS >:(", "C'EST A MOI MTN!", "J'PARTAGE PAS!"];
-  providerClaim: string = 'Bonjour comment ca va? :>';
+  providerClaim: string = '';
   selectedProviderClaims: { [key: string]: string } = {};
 
   constructor(

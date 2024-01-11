@@ -8,9 +8,6 @@ import { RequestAnswer } from '../../interfaces/request-answer';
 import { CompletedRectificationSuppressionRequest } from '../../interfaces/completed-rectification-suppression-request';
 import { SuccessErrorService } from '../../shared/services/success-error/success-error.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SUPPRESSION_REQUEST } from './exemple-tempo';
-import { SUPPRESSION_REQUEST_ANSWER } from './exemple-tempo';
-import { CURRENT_VALUE } from './exemple-tempo';
 
 @Component({
   selector: 'app-suppression',
@@ -18,12 +15,12 @@ import { CURRENT_VALUE } from './exemple-tempo';
   styleUrls: ['./suppression.component.css']
 })
 export class SuppressionComponent {
-  suppressionRequest: RequestData = SUPPRESSION_REQUEST;
-  suppressionRequestAnswer: RequestAnswer = SUPPRESSION_REQUEST_ANSWER;
+  suppressionRequest!: RequestData;
+  suppressionRequestAnswer!: RequestAnswer;
   response!: boolean;
   providerAnswer!: boolean;
   providerClaim: string = 'CLAIM!';
-  currentValue: CurrentValue = CURRENT_VALUE;
+  currentValue!: CurrentValue;
 
   constructor(
     private getSuppressionService: GetSuppressionService,

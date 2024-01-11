@@ -7,8 +7,6 @@ import { Request } from '../../interfaces/request';
 import { SelectedRequest } from '../../interfaces/selected-request';
 import { Router } from '@angular/router';
 import { MatSelectionListChange } from '@angular/material/list';
-import { DATA_SUBJECT_CATEGORY } from './exemple-tempo';
-import { REQUESTS } from './exemple-tempo';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,11 +14,11 @@ import { REQUESTS } from './exemple-tempo';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  dataSubjectCategories: DataSubjectCategory[] = DATA_SUBJECT_CATEGORY;
+  dataSubjectCategories: DataSubjectCategory[] = [];
   selectedRequestResponses: string[] = ["In Progress"];
-  selectedRequestTypes: string[] = ["Access", "Rectification", "Suppression"];
+  selectedRequestTypes: string[] = ["Access", "Rectification", "Erasure", "Portability"];
   selectedDataSubjectCategories: DataSubjectCategory[] = this.dataSubjectCategories;
-  requests: Request[] = REQUESTS;
+  requests: Request[] = [];
   typeToRouteMap: Map<string, string> = new Map([
     ['Access', '/access-request'],
     ['Rectification', '/rectification'],
