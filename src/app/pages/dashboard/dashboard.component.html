@@ -26,16 +26,22 @@
   </mat-drawer>
 
   <mat-drawer-content style="overflow-y: auto;">
-    <div *ngFor="let request of requests">
-      <button mat-flat-button class="request-button" [color]="isDateThreeWeeksOlder(request.issuedAt) ? 'accent' : 'primary'" (click)="getSelectedRequest(request.requestId, request.requestType, request.response)">
-        <span style="display: flex; align-items: center;">
-          {{ request.requestId }}
-          {{ request.requestType }}
-          {{ request.dataSubjectCategory.dataSubjectCategoryName }}
-          {{ request.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}
-          <i class="material-icons" style="font-size: 6vh;">{{ request.response ? 'check_circle' : 'cancel' }}</i>
-        </span>
-      </button>
+    <div *ngIf="requests && requests.length > 0; else noRequests">
+      <div *ngFor="let request of requests">
+        <button mat-flat-button class="request-button" [color]="isDateThreeWeeksOlder(request.issuedAt) ? 'accent' : 'primary'" (click)="getSelectedRequest(request.requestId, request.requestType, request.response)">
+          <span style="display: flex; align-items: center;">
+            {{ request.requestId }}
+            {{ request.requestType }}
+            {{ request.dataSubjectCategory.dataSubjectCategoryName }}
+            {{ request.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}
+            <i class="material-icons" style="font-size: 6vh;">{{ request.response ? 'check_circle' : 'cancel' }}</i>
+          </span>
+        </button>
+      </div>
     </div>
+
+    <ng-template #noRequests>
+      <p>No requests available.</p>
+    </ng-template>
   </mat-drawer-content>
 </mat-drawer-container>

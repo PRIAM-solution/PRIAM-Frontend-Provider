@@ -26,10 +26,11 @@ interface DataSubject {
   dataSubjectCategory: DataSubjectCategory;
 }
 
-export interface AccessRequest {
+export interface RequestData {
   requestId: number;
   userClaim: string;
   issuedAt: Date;
+  newValue?: any; // A MODIF POUR GERER TOUS TYPES
   isIsolated: boolean;
   dataTypes: DataType[];
   dataSubject: DataSubject;

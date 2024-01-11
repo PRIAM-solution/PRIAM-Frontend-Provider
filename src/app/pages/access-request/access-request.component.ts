@@ -4,12 +4,13 @@ import { PostAccessService } from '../../shared/services/api/rights/access/post-
 import { GetDashboardService } from '../../shared/services/api/dashboard/get-dashboard/get-dashboard.service';
 import { SlideToggleService } from '../../shared/services/slide-toggle/slide-toggle.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { AccessRequest } from '../../interfaces/access-request';
-import { AccessRequestAnswer } from '../../interfaces/access-request-answer';
+import { RequestData } from '../../interfaces/request-data';
+import { RequestAnswer } from '../../interfaces/request-answer';
 import { CompletedAccessRequest } from '../../interfaces/completed-access-request';
 import { SuccessErrorService } from '../../shared/services/success-error/success-error.service';
-//import { ACCESS_REQUEST } from './exemple-tempo';
-//import { ACCESS_REQUEST_ANSWER } from './exemple-tempo';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ACCESS_REQUEST } from './exemple-tempo';
+import { ACCESS_REQUEST_ANSWER } from './exemple-tempo';
 
 @Component({
   selector: 'app-access-request',
@@ -17,8 +18,8 @@ import { SuccessErrorService } from '../../shared/services/success-error/success
   styleUrls: ['./access-request.component.css']
 })
 export class AccessRequestComponent implements OnInit {
-  accessRequest!: AccessRequest;
-  accessRequestAnswer!: AccessRequestAnswer;
+  accessRequest: RequestData = ACCESS_REQUEST;
+  accessRequestAnswer: RequestAnswer = ACCESS_REQUEST_ANSWER;
   response!: boolean;
   providerDataClaims: string[] = ["","NON JE VEUX PAS >:(", "C'EST A MOI MTN!", "J'PARTAGE PAS!"];
   providerClaim: string = 'Bonjour comment ca va? :>';
@@ -30,6 +31,7 @@ export class AccessRequestComponent implements OnInit {
     private getDashboardService: GetDashboardService,
     private slideToggleService: SlideToggleService,
     private successErrorService: SuccessErrorService,
+    private _snackBar: MatSnackBar,
   ) {}
 
   ngOnInit() {
@@ -103,25 +105,32 @@ export class AccessRequestComponent implements OnInit {
     return data ? data.dataName : '';
   }
 
-  postCompletedAccessRequest() {
-    const completedAccessRequest: CompletedAccessRequest = {
-      requestId: 0,
-      data: this.accessRequest.dataTypes
-        .flatMap(dataType => dataType.data.filter(data => data.answerByData))
-        .map(selectedData => ({ dataId: selectedData.dataId, dataName: selectedData.dataName })),
-      providerClaim: `${this.providerClaim}<br>${Object.keys(this.selectedProviderClaims)
-        .filter(dataId => this.selectedProviderClaims[dataId] != null && this.isDataUnselected(dataId))
-        .map(dataId => `- ${this.getDataNameById(dataId)}: ${this.selectedProviderClaims[dataId]}`)
-        .join('<br>')}`,
-    };
+postCompletedAccessRequest() {
+  const completedAccessRequest: CompletedAccessRequest = {
+    requestId: 0,
+    data: this.accessRequest.dataTypes
+      .flatMap(dataType => dataType.data.filter(data => data.answerByData))
+      .map(selectedData => ({ dataId: selectedData.dataId, dataName: selectedData.dataName })),
+    providerClaim: `${this.providerClaim}<br>${Object.keys(this.selectedProviderClaims)
+      .filter(dataId => this.selectedProviderClaims[dataId] != null && this.isDataUnselected(dataId))
+      .map(dataId => `- ${this.getDataNameById(dataId)}: ${this.selectedProviderClaims[dataId]}`)
+      .join('<br>')}`,
+  };
 
-    this.postAccessService.postCompletedAccessRequest(completedAccessRequest).subscribe(
-      response => {
-        console.log("[Success] postCompletedAccessRequest()", response);
-      },
-      error => {
-        console.log("[Error] postCompletedAccessRequest()", error);
-      }
-    );
-  }
-}
+  this.postAccessService.postCompletedAccessRequest(completedAccessRequest).subscribe(
+    response => {
+      // Show a positive snackbar message upon success
+      const message = 'Success!';
+      const action = 'X';
+      this._snackBar.open(message, action);
+      console.log("[Success] postCompletedAccessRequest()", response);
+    },
+    error => {
+      // Show a negative snackbar message upon error
+      const message = 'Error..';
+      const action = 'X';
+      this._snackBar.open(message, action);
+      console.log("[Error] postCompletedAccessRequest()", error);
+    }
+  );
+}}
