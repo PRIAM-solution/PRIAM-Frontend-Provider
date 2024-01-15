@@ -59,6 +59,7 @@ export class RectificationComponent {
   getSelectedRectificationRequestAnswer() {
     this.getRectificationService.getSelectedRectificationRequestAnswer(this.getDashboardService.selectedRequest.requestId).subscribe(
       response => {
+        console.log(response)
         this.rectificationRequestAnswer = response;
         this.successErrorService.handleSuccess('getSelectedRectificationRequestAnswer', response);
       },
@@ -69,7 +70,7 @@ export class RectificationComponent {
   }
 
   getCurrentValue() {
-    this.getRectificationService.getCurrentValue(this.rectificationRequest.dataTypes[0].data[0].dataId).subscribe(
+    this.getRectificationService.getCurrentValue(this.rectificationRequest.datas[0].dataId).subscribe(
       response => {
         this.currentValue = response;
         this.successErrorService.handleSuccess('getCurrentValue', response);

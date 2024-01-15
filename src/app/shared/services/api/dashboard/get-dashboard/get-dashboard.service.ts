@@ -24,7 +24,7 @@ export class GetDashboardService {
     let params = new HttpParams({fromObject: {
         listOfSelectedTypeDataRequests: requestFilter.requestTypes,
         listOfSelectedStatus: requestFilter.requestResponses,
-        listOfSelectedDataSubjectCategories: requestFilter.dataSubjectCategories.map(d => d.dscName)
+        listOfSelectedDataSubjectCategories: requestFilter.dataSubjectCategories.map(d => d.dataSubjectCategoryName)
       }});
     return this.httpClient.get<Request[]>(`${environment.api_right}/right/requestList`, {params: params});
   }

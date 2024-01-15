@@ -26,12 +26,22 @@ interface DataSubject {
   dataSubjectCategory: DataSubjectCategory;
 }
 
+// export interface RequestData {
+//   requestId: number;
+//   userClaim: string;
+//   issuedAt: Date;
+//   newValue?: any; // A MODIF POUR GERER TOUS TYPES
+//   isIsolated: boolean;
+//   dataTypes: DataType[];
+//   dataSubject: DataSubject;
+// }
+
 export interface RequestData {
   requestId: number;
   userClaim: string;
   issuedAt: Date;
-  newValue?: any; // A MODIF POUR GERER TOUS TYPES
+  newValue?: any;
   isIsolated: boolean;
-  dataTypes: DataType[];
+  datas: Data[];
   dataSubject: DataSubject;
 }

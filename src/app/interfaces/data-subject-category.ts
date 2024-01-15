@@ -1,4 +1,4 @@
 export interface DataSubjectCategory {
-  dscId: number;
-  dscName: string;
+  dataSubjectCategoryId: number;
+  dataSubjectCategoryName: string;
 }

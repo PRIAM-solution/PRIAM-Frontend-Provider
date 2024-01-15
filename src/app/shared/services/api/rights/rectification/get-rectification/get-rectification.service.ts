@@ -16,7 +16,7 @@ export class GetRectificationService {
   private baseUrl = environment.api_right;
 
   getSelectedRectificationRequest(requestId: number, requestType: string): Observable<RequestData> {
-    return this.httpClient.get<RequestData>(`${this.baseUrl}/right/getSelectedRectificationRequest`);
+    return this.httpClient.get<RequestData>(`${this.baseUrl}/right/dataRequest/${requestId}`);
   }
 
   getSelectedRectificationRequestAnswer(requestId: number): Observable<RequestAnswer> {

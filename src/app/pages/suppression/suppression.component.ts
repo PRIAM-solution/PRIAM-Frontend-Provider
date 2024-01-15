@@ -66,7 +66,7 @@ export class SuppressionComponent {
   }
 
   getCurrentValue() {
-    this.getSuppressionService.getCurrentValue(this.suppressionRequest.dataTypes[0].data[0].dataId).subscribe(
+    this.getSuppressionService.getCurrentValue(this.suppressionRequest.datas[0].dataId).subscribe(
       response => {
         this.currentValue = response;
         this.successErrorService.handleSuccess('getCurrentValue', response);

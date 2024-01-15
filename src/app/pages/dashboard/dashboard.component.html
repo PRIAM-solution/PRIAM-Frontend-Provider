@@ -18,7 +18,7 @@
         <h3 matListItemTitle>Data Subject Categories</h3>
         <div *ngFor="let category of dataSubjectCategories">
           <mat-list-option [value]="category">
-            {{ category.dscName }}
+            {{ category.dataSubjectCategoryName }}
           </mat-list-option>
         </div>
       </mat-selection-list>
@@ -32,7 +32,7 @@
           <span style="display: flex; align-items: center;">
             {{ request.requestId }}
             {{ request.requestType }}
-            {{ request.dataSubjectCategory.dscName }}
+            {{ request.dataSubjectCategory.dataSubjectCategoryName }}
             {{ request.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}
             <i class="material-icons" style="font-size: 6vh;">{{ request.response ? 'check_circle' : 'cancel' }}</i>
           </span>
