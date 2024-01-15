@@ -1,6 +1,4 @@
-interface DataSubjectCategory {
-  dataSubjectCategoryName: string;
-}
+import {DataSubjectCategory} from "./data-subject-category";
 
 export interface Request {
   requestId: number;
