@@ -22,11 +22,10 @@ export class GetDashboardService {
 
   getFilteredRequests(requestFilter: RequestFilter): Observable<Request[]> {
     let params = new HttpParams({fromObject: {
-        listOfSelectedTypeDataRequests: [""],
-        listOfSelectedStatus: [""],
-        listOfSelectedDataSubjectCategories: [""]
+        listOfSelectedTypeDataRequests: requestFilter.requestTypes,
+        listOfSelectedStatus: requestFilter.requestResponses,
+        listOfSelectedDataSubjectCategories: requestFilter.dataSubjectCategories.map(d => d.dscName)
       }});
-    console.log(params)
     return this.httpClient.get<Request[]>(`${environment.api_right}/right/requestList`, {params: params});
   }
 }
