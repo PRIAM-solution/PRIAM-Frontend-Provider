@@ -1,7 +1,3 @@
-interface DataSubjectCategory {
-  dataSubjectCategoryName: string;
-}
-
 interface PrimaryKey {
   primaryKeyId: number;
   primaryKeyName: string;
@@ -9,8 +5,9 @@ interface PrimaryKey {
 
 interface Data {
   dataId: number;
-  dataName: string;
+  attributeName: string;
   answerByData: boolean;
+  primaryKeys: Map<String, String>;
 }
 
 interface DataType {
@@ -22,8 +19,8 @@ interface DataType {
 
 interface DataSubject {
   dataSubjectId: number;
-  referenceId: number;
-  dataSubjectCategory: DataSubjectCategory;
+  referenceId: string;
+  dataSubjectCategoryName: string;
 }
 
 // export interface RequestData {
@@ -38,10 +35,16 @@ interface DataSubject {
 
 export interface RequestData {
   requestId: number;
-  userClaim: string;
+  typeRequest: String;
+  response: boolean;
+  claim: string;
   issuedAt: Date;
   newValue?: any;
   isIsolated: boolean;
-  datas: Data[];
   dataSubject: DataSubject;
+  dataTypeList: DataType[];
+}
+
+export interface DataValue {
+  value: String
 }

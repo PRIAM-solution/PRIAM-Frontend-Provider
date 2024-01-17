@@ -11,11 +11,11 @@
     <td>{{ rectificationRequest.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
     <td *ngIf="response">{{ rectificationRequestAnswer.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
     <td>{{ rectificationRequest.dataSubject.referenceId }}</td>
-    <td>{{ rectificationRequest.dataSubject.dataSubjectCategory.dataSubjectCategoryName }}</td>
+    <td>{{ rectificationRequest.dataSubject.dataSubjectCategoryName }}</td>
   </tr>
 </table>
 
-<p>User Claim: {{ rectificationRequest.userClaim }}</p>
+<p>User Claim: {{ rectificationRequest.claim }}</p>
 <p *ngIf="response">Provider Claim: {{ rectificationRequestAnswer.providerClaim }}</p>
 
 <h1 *ngIf="response" [style.color]="rectificationRequestAnswer.answerType === 'Accepted' ? 'green' : (rectificationRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ rectificationRequestAnswer.answerType }}</h1>
@@ -26,7 +26,7 @@
     <th>New Value</th>
   </tr>
   <tr>
-    <td *ngIf=!response>{{ currentValue.currentValue }}</td>
+    <td *ngIf=!response>{{ currentValue }}</td>
     <td>{{ rectificationRequest.newValue }}</td>
   </tr>
 </table>
@@ -42,7 +42,7 @@
   </mat-form-field>
 </div>
 
-<button mat-flat-button *ngIf="!response; else noDataButton" color="primary" [disabled]="providerAnswer === undefined || providerClaim === ''" (click)="response ? null : postCompletedRectificationRequest()" routerLink="/dashboard"><i class="material-icons">check_circle</i></button>
+<button mat-flat-button *ngIf="!response; else noDataButton" color="primary" [disabled]="!providerAnswer || providerClaim === ''" (click)="response ? null : postCompletedRectificationRequest()" routerLink="/dashboard"><i class="material-icons">check_circle</i></button>
 <ng-template #noDataButton>
   <button mat-flat-button color="primary" routerLink="/dashboard"><i class="material-icons">check_circle</i></button>
 </ng-template>

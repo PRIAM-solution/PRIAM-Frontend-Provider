@@ -11,11 +11,11 @@
     <td>{{ suppressionRequest.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
     <td *ngIf="response">{{ suppressionRequestAnswer.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
     <td>{{ suppressionRequest.dataSubject.referenceId }}</td>
-    <td>{{ suppressionRequest.dataSubject.dataSubjectCategory.dataSubjectCategoryName }}</td>
+    <td>{{ suppressionRequest.dataSubject.dataSubjectCategoryName }}</td>
   </tr>
 </table>
 
-<p>User Claim: {{ suppressionRequest.userClaim }}</p>
+<p>User Claim: {{ suppressionRequest.claim }}</p>
 <p *ngIf="response">Provider Claim: {{ suppressionRequestAnswer.providerClaim }}</p>
 
 <h1 *ngIf="response" [style.color]="suppressionRequestAnswer.answerType === 'Accepted' ? 'green' : (suppressionRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ suppressionRequestAnswer.answerType }}</h1>

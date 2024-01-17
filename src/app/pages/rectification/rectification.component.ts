@@ -17,10 +17,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class RectificationComponent {
   rectificationRequest!: RequestData;
   rectificationRequestAnswer!: RequestAnswer;
-  response!: boolean;
-  providerAnswer!: boolean;
-  providerClaim: string = 'CLAIM!';
-  currentValue!: CurrentValue;
+  response: boolean = false;
+  providerAnswer: boolean = false;
+  providerClaim: string = '';
+  currentValue: String = "";
 
   constructor(
     private getRectificationService: GetRectificationService,
@@ -33,12 +33,6 @@ export class RectificationComponent {
   ngOnInit() {
     this.response = this.getDashboardService.selectedRequest.response;
     this.getSelectedRectificationRequest();
-    if (this.response) {
-      this.getSelectedRectificationRequestAnswer();
-    }
-    else {
-      this.getCurrentValue();
-    }
   }
 
   getSelectedRectificationRequest() {
@@ -49,6 +43,13 @@ export class RectificationComponent {
       response => {
         this.rectificationRequest = response;
         this.successErrorService.handleSuccess('getSelectedRectificationRequest', response);
+
+        if (this.response) {
+          this.getSelectedRectificationRequestAnswer();
+        }
+        else {
+          this.getCurrentValue();
+        }
       },
       error => {
         this.successErrorService.handleError('getSelectedRectificationRequest', error);
@@ -70,9 +71,9 @@ export class RectificationComponent {
   }
 
   getCurrentValue() {
-    this.getRectificationService.getCurrentValue(this.rectificationRequest.datas[0].dataId).subscribe(
+    this.getRectificationService.getCurrentValue(this.rectificationRequest.dataSubject.referenceId, this.rectificationRequest.dataTypeList[0].data[0].attributeName, this.rectificationRequest.dataTypeList[0].data[0].primaryKeys).subscribe(
       response => {
-        this.currentValue = response;
+        this.currentValue = response.value;
         this.successErrorService.handleSuccess('getCurrentValue', response);
       },
       error => {
