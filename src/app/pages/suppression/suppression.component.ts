@@ -17,10 +17,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class SuppressionComponent {
   suppressionRequest!: RequestData;
   suppressionRequestAnswer!: RequestAnswer;
-  response!: boolean;
-  providerAnswer!: boolean;
-  providerClaim: string = 'CLAIM!';
-  currentValue!: CurrentValue;
+  response: boolean = false;
+  providerAnswer: boolean = false;
+  providerClaim: string = '';
+  currentValue: String = "";
 
   constructor(
     private getSuppressionService: GetSuppressionService,
@@ -33,9 +33,6 @@ export class SuppressionComponent {
   ngOnInit() {
     this.response = this.getDashboardService.selectedRequest.response;
     this.getSelectedSuppressionRequest();
-    if (this.response) {
-      this.getSelectedSuppressionRequestAnswer();
-    }
   }
 
   getSelectedSuppressionRequest() {
@@ -46,6 +43,13 @@ export class SuppressionComponent {
       response => {
         this.suppressionRequest = response;
         this.successErrorService.handleSuccess('getSelectedSuppressionRequest', response);
+
+        if (this.response) {
+          this.getSelectedSuppressionRequestAnswer();
+        }
+        else {
+          this.getCurrentValue();
+        }
       },
       error => {
         this.successErrorService.handleError('getSelectedSuppressionRequest', error);
@@ -66,9 +70,9 @@ export class SuppressionComponent {
   }
 
   getCurrentValue() {
-    this.getSuppressionService.getCurrentValue(this.suppressionRequest.dataTypeList[0].data[0].dataId).subscribe(
-      response => {
-        this.currentValue = response;
+    this.getSuppressionService.getCurrentValue(this.suppressionRequest.dataSubject.referenceId, this.suppressionRequest.dataTypeList[0].data[0].attributeName, this.suppressionRequest.dataTypeList[0].data[0].primaryKeys).subscribe(
+        response => {
+        this.currentValue = response.value;
         this.successErrorService.handleSuccess('getCurrentValue', response);
       },
       error => {

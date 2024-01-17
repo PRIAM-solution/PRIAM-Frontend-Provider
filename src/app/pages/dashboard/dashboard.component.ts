@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   typeToRouteMap: Map<string, string> = new Map([
     ['Access', '/access-request'],
     ['Rectification', '/rectification'],
-    ['Suppression', '/suppression'],
+    ['Erasure', '/suppression'],
   ]);
 
   constructor(
