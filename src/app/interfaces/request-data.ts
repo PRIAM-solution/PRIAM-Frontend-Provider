@@ -14,7 +14,7 @@ interface DataType {
   dataTypeName: string;
   primaryKeys: PrimaryKey[];
   data: Data[];
-  answerByData?: boolean;
+  answerByData: boolean;
 }
 
 interface DataSubject {

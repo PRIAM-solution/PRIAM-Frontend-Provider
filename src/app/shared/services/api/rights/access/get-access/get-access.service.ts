@@ -16,7 +16,7 @@ export class GetAccessService {
   private baseUrl = environment.api_right;
 
   getSelectedAccessRequest(requestId: number, requestType: string): Observable<RequestData> {
-    return this.httpClient.get<RequestData>(`${this.baseUrl}/right/getSelectedAccessRequest`);
+    return this.httpClient.get<RequestData>(`${this.baseUrl}/right/requestDetail/${requestId}`);
   }
 
   getSelectedAccessRequestAnswer(requestId: number): Observable<RequestAnswer> {

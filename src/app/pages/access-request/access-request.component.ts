@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { GetAccessService } from '../../shared/services/api/rights/access/get-access/get-access.service';
-import { PostAccessService } from '../../shared/services/api/rights/access/post-access/post-access.service';
-import { GetDashboardService } from '../../shared/services/api/dashboard/get-dashboard/get-dashboard.service';
-import { SlideToggleService } from '../../shared/services/slide-toggle/slide-toggle.service';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { RequestData } from '../../interfaces/request-data';
-import { RequestAnswer } from '../../interfaces/request-answer';
-import { CompletedAccessRequest } from '../../interfaces/completed-access-request';
-import { SuccessErrorService } from '../../shared/services/success-error/success-error.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {Component, OnInit} from '@angular/core';
+import {GetAccessService} from '../../shared/services/api/rights/access/get-access/get-access.service';
+import {PostAccessService} from '../../shared/services/api/rights/access/post-access/post-access.service';
+import {GetDashboardService} from '../../shared/services/api/dashboard/get-dashboard/get-dashboard.service';
+import {SlideToggleService} from '../../shared/services/slide-toggle/slide-toggle.service';
+import {MatSlideToggleChange} from '@angular/material/slide-toggle';
+import {RequestData} from '../../interfaces/request-data';
+import {RequestAnswer} from '../../interfaces/request-answer';
+import {CompletedAccessRequest} from '../../interfaces/completed-access-request';
+import {SuccessErrorService} from '../../shared/services/success-error/success-error.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-access-request',
@@ -34,102 +34,100 @@ export class AccessRequestComponent implements OnInit {
 
   ngOnInit() {
     this.response = this.getDashboardService.selectedRequest.response;
-    // this.getSelectedAccessRequest();
-    // if (this.response) {
-    //   this.getSelectedAccessRequestAnswer();
-    // }
+    this.getSelectedAccessRequest();
+    if (this.response) {
+      this.getSelectedAccessRequestAnswer();
+    }
   }
 
-//   getSelectedAccessRequest() {
-//     this.getAccessService.getSelectedAccessRequest(
-//       this.getDashboardService.selectedRequest.requestId,
-//       this.getDashboardService.selectedRequest.requestType
-//     ).subscribe(
-//       response => {
-//         this.accessRequest = response;
-//         this.successErrorService.handleSuccess('getSelectedAccessRequest', response);
-//       },
-//       error => {
-//         this.successErrorService.handleError('getSelectedAccessRequest', error);
-//       }
-//     );
-//   }
-//
-//   getSelectedAccessRequestAnswer() {
-//     this.getAccessService.getSelectedAccessRequestAnswer(this.getDashboardService.selectedRequest.requestId).subscribe(
-//       response => {
-//         this.accessRequestAnswer = response;
-//         this.successErrorService.handleSuccess('getSelectedAccessRequestAnswer', response);
-//       },
-//       error => {
-//         this.successErrorService.handleError('getSelectedAccessRequestAnswer', error);
-//       }
-//     );
-//   }
-//
-//   onChange($event: MatSlideToggleChange, toggleName: string, dataType: any, data: any) {
-//     this.slideToggleService.onChange(this.accessRequest.datas, $event, toggleName, dataType, data);
-//     console.log("onChange(", $event.checked, ",", toggleName, ",", dataType.dataTypeName, ",", data.dataName, "): ", this.accessRequest.datas);
-//   }
-//
-//
-//   isConfirmButtonDisabled(): boolean {
-//     if (this.response) {
-//       return true;
-//     }
-//
-//     if (!this.providerClaim.trim()) {
-//       return true;
-//     }
-//
-//     const unselectedDataClaimsEmpty = this.accessRequest.datas
-//       .flatMap(dataType => dataType.data.filter(data => !data.answerByData))
-//       .some(unselectedData => !this.selectedProviderClaims[unselectedData.dataId]?.trim());
-//
-//     return unselectedDataClaimsEmpty;
-//   }
-//
-//   isDataUnselected(dataId: string): boolean {
-//     return this.accessRequest.datas.some(dataType =>
-//       dataType.data.some(data => data.dataId.toString() === dataId && !data.answerByData)
-//     );
-//   }
-//
-//   getDataNameById(dataId: string): string {
-//     const data = this.accessRequest.datas
-//       .flatMap(dataType => dataType.data)
-//       .find(data => data.dataId.toString() === dataId);
-//
-//     return data ? data.dataName : '';
-//   }
-//
-// postCompletedAccessRequest() {
-//   const completedAccessRequest: CompletedAccessRequest = {
-//     requestId: 0,
-//     data: this.accessRequest.datas
-//       .flatMap(dataType => dataType.data.filter(data => data.answerByData))
-//       .map(selectedData => ({ dataId: selectedData.dataId, dataName: selectedData.dataName })),
-//     providerClaim: `${this.providerClaim}<br>${Object.keys(this.selectedProviderClaims)
-//       .filter(dataId => this.selectedProviderClaims[dataId] != null && this.isDataUnselected(dataId))
-//       .map(dataId => `- ${this.getDataNameById(dataId)}: ${this.selectedProviderClaims[dataId]}`)
-//       .join('<br>')}`,
-//   };
-//
-//   this.postAccessService.postCompletedAccessRequest(completedAccessRequest).subscribe(
-//     response => {
-//       // Show a positive snackbar message upon success
-//       const message = 'Success!';
-//       const action = 'X';
-//       this._snackBar.open(message, action);
-//       console.log("[Success] postCompletedAccessRequest()", response);
-//     },
-//     error => {
-//       // Show a negative snackbar message upon error
-//       const message = 'Error..';
-//       const action = 'X';
-//       this._snackBar.open(message, action);
-//       console.log("[Error] postCompletedAccessRequest()", error);
-//     }
-//   );
-//  }
+  getSelectedAccessRequest() {
+    this.getAccessService.getSelectedAccessRequest(
+      this.getDashboardService.selectedRequest.requestId,
+      this.getDashboardService.selectedRequest.requestType
+    ).subscribe(
+      response => {
+        this.accessRequest = response;
+        this.successErrorService.handleSuccess('getSelectedAccessRequest', response);
+      },
+      error => {
+        this.successErrorService.handleError('getSelectedAccessRequest', error);
+      }
+    );
+  }
+
+  getSelectedAccessRequestAnswer() {
+    this.getAccessService.getSelectedAccessRequestAnswer(this.getDashboardService.selectedRequest.requestId).subscribe(
+      response => {
+        this.accessRequestAnswer = response;
+        this.successErrorService.handleSuccess('getSelectedAccessRequestAnswer', response);
+      },
+      error => {
+        this.successErrorService.handleError('getSelectedAccessRequestAnswer', error);
+      }
+    );
+  }
+
+  onChange($event: MatSlideToggleChange, toggleName: string, dataType: any, data: any) {
+    this.slideToggleService.onChange(this.accessRequest.dataTypeList, $event, toggleName, dataType, data);
+    console.log("onChange(", $event.checked, ",", toggleName, ",", dataType.dataTypeName, ",", data.attributeName, "): ", this.accessRequest.dataTypeList);
+  }
+
+
+  isConfirmButtonDisabled(): boolean {
+    if (this.response) {
+      return true;
+    }
+
+    if (!this.providerClaim.trim()) {
+      return true;
+    }
+
+    return this.accessRequest.dataTypeList
+        .flatMap(dataType => dataType.data.filter(data => !data.answerByData))
+        .some(unselectedData => !this.selectedProviderClaims[unselectedData.dataId]?.trim());
+  }
+
+  isDataUnselected(dataId: string): boolean {
+    return this.accessRequest.dataTypeList.some(dataType =>
+      dataType.data.some(data => data.dataId.toString() === dataId && !data.answerByData)
+    );
+  }
+
+  getDataNameById(dataId: string): string {
+    const data = this.accessRequest.dataTypeList
+      .flatMap(dataType => dataType.data)
+      .find(data => data.dataId.toString() === dataId);
+
+    return data ? data.attributeName : '';
+  }
+
+postCompletedAccessRequest() {
+  const completedAccessRequest: CompletedAccessRequest = {
+    requestId: 0,
+    data: this.accessRequest.dataTypeList
+      .flatMap(dataType => dataType.data.filter(data => data.answerByData))
+      .map(selectedData => ({ dataId: selectedData.dataId, attributeName: selectedData.attributeName })),
+    providerClaim: `${this.providerClaim}<br>${Object.keys(this.selectedProviderClaims)
+      .filter(dataId => this.selectedProviderClaims[dataId] != null && this.isDataUnselected(dataId))
+      .map(dataId => `- ${this.getDataNameById(dataId)}: ${this.selectedProviderClaims[dataId]}`)
+      .join('<br>')}`,
+  };
+
+  this.postAccessService.postCompletedAccessRequest(completedAccessRequest).subscribe(
+    response => {
+      // Show a positive snackbar message upon success
+      const message = 'Success!';
+      const action = 'X';
+      this._snackBar.open(message, action);
+      console.log("[Success] postCompletedAccessRequest()", response);
+    },
+    error => {
+      // Show a negative snackbar message upon error
+      const message = 'Error..';
+      const action = 'X';
+      this._snackBar.open(message, action);
+      console.log("[Error] postCompletedAccessRequest()", error);
+    }
+  );
+ }
 }
