@@ -21,7 +21,7 @@ export class GetSuppressionService {
   }
 
   getSelectedSuppressionRequestAnswer(requestId: number): Observable<RequestAnswer> {
-    return this.httpClient.get<RequestAnswer>(`${this.baseUrlRight}/right/getSelectedSuppressionRequestAnswer`);
+    return this.httpClient.get<RequestAnswer>(`${this.baseUrlRight}/right/answer/${requestId}`);
   }
 
   getCurrentValue(referenceId: string, attributeName: string, primaryKeys: Map<String, String>): Observable<DataValue> {

@@ -16,7 +16,7 @@
 </table>
 
 <p>User Claim: {{ accessRequest.claim }}</p>
-<p *ngIf="response">Provider Claim: {{ accessRequestAnswer.providerClaim }}</p>
+<p *ngIf="response">Provider Claim: {{ accessRequestAnswer.answerClaim }}</p>
 
 <h1 *ngIf="response" [style.color]="accessRequestAnswer.answerType === 'Accepted' ? 'green' : (accessRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ accessRequestAnswer.answerType }}</h1>
 

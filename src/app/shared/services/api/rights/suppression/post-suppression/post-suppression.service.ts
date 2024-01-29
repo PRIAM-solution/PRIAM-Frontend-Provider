@@ -13,6 +13,6 @@ export class PostSuppressionService {
   private baseUrl = environment.api_right;
 
   postCompletedSuppressionRequest(completedSuppressionRequest: CompletedRectificationSuppressionRequest): Observable<CompletedRectificationSuppressionRequest> {
-    return this.httpClient.post<CompletedRectificationSuppressionRequest>(`${this.baseUrl}/right/postCompletedSuppressionRequest`, completedSuppressionRequest);
+    return this.httpClient.post<CompletedRectificationSuppressionRequest>(`${this.baseUrl}/right/answer`, completedSuppressionRequest);
   }
 }

@@ -31,7 +31,6 @@ export class SuppressionComponent {
   ) {}
 
   ngOnInit() {
-    this.response = this.getDashboardService.selectedRequest.response;
     this.getSelectedSuppressionRequest();
   }
 
@@ -44,12 +43,9 @@ export class SuppressionComponent {
         this.suppressionRequest = response;
         this.successErrorService.handleSuccess('getSelectedSuppressionRequest', response);
 
-        if (this.response) {
-          this.getSelectedSuppressionRequestAnswer();
-        }
-        else {
+        this.getSelectedSuppressionRequestAnswer();
+        if(!this.response)
           this.getCurrentValue();
-        }
       },
       error => {
         this.successErrorService.handleError('getSelectedSuppressionRequest', error);
@@ -60,8 +56,11 @@ export class SuppressionComponent {
   getSelectedSuppressionRequestAnswer() {
     this.getSuppressionService.getSelectedSuppressionRequestAnswer(this.getDashboardService.selectedRequest.requestId).subscribe(
       response => {
-        this.suppressionRequestAnswer = response;
-        this.successErrorService.handleSuccess('getSelectedSuppressionRequestAnswer', response);
+        if(response != null) {
+          this.response = true;
+          this.suppressionRequestAnswer = response;
+          this.successErrorService.handleSuccess('getSelectedSuppressionRequestAnswer', response);
+        }
       },
       error => {
         this.successErrorService.handleError('getSelectedSuppressionRequestAnswer', error);
@@ -83,7 +82,7 @@ export class SuppressionComponent {
 
   postCompletedSuppressionRequest() {
     const completedSuppressionRequest: CompletedRectificationSuppressionRequest = {
-      requestId: 0,
+      requestId: this.suppressionRequest.requestId,
       providerClaim: this.providerClaim,
       answer: this.providerAnswer,
     };

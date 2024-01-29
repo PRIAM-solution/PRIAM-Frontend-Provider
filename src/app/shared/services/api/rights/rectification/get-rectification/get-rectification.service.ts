@@ -21,7 +21,7 @@ export class GetRectificationService {
   }
 
   getSelectedRectificationRequestAnswer(requestId: number): Observable<RequestAnswer> {
-    return this.httpClient.get<RequestAnswer>(`${this.baseUrlRight}/right/getSelectedRectificationRequestAnswer`);
+    return this.httpClient.get<RequestAnswer>(`${this.baseUrlRight}/right/answer/${requestId}`);
   }
 
   getCurrentValue(referenceId: string, attributeName: string, primaryKeys: Map<String, String>): Observable<DataValue> {

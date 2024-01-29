@@ -16,7 +16,7 @@ import { MatSelectionListChange } from '@angular/material/list';
 export class DashboardComponent implements OnInit {
   dataSubjectCategories: DataSubjectCategory[] = [];
   selectedRequestResponses: string[] = ["In Progress"];
-  selectedRequestTypes: string[] = ["Access", "Rectification", "Erasure", "Portability"];
+  selectedRequestTypes: string[] = [];
   selectedDataSubjectCategories: DataSubjectCategory[] = this.dataSubjectCategories;
   requests: Request[] = [];
   typeToRouteMap: Map<string, string> = new Map([

@@ -18,7 +18,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class AccessRequestComponent implements OnInit {
   accessRequest!: RequestData;
   accessRequestAnswer!: RequestAnswer;
-  response!: boolean;
+  response: boolean = false;
   providerDataClaims: string[] = ["","NON JE VEUX PAS >:(", "C'EST A MOI MTN!", "J'PARTAGE PAS!"];
   providerClaim: string = '';
   selectedProviderClaims: { [key: string]: string } = {};
@@ -33,11 +33,7 @@ export class AccessRequestComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.response = this.getDashboardService.selectedRequest.response;
     this.getSelectedAccessRequest();
-    if (this.response) {
-      this.getSelectedAccessRequestAnswer();
-    }
   }
 
   getSelectedAccessRequest() {
@@ -48,6 +44,8 @@ export class AccessRequestComponent implements OnInit {
       response => {
         this.accessRequest = response;
         this.successErrorService.handleSuccess('getSelectedAccessRequest', response);
+
+        this.getSelectedAccessRequestAnswer();
       },
       error => {
         this.successErrorService.handleError('getSelectedAccessRequest', error);
@@ -58,8 +56,11 @@ export class AccessRequestComponent implements OnInit {
   getSelectedAccessRequestAnswer() {
     this.getAccessService.getSelectedAccessRequestAnswer(this.getDashboardService.selectedRequest.requestId).subscribe(
       response => {
-        this.accessRequestAnswer = response;
-        this.successErrorService.handleSuccess('getSelectedAccessRequestAnswer', response);
+        if(response != null) {
+          this.response = true;
+          this.accessRequestAnswer = response;
+          this.successErrorService.handleSuccess('getSelectedAccessRequestAnswer', response);
+        }
       },
       error => {
         this.successErrorService.handleError('getSelectedAccessRequestAnswer', error);
@@ -103,10 +104,9 @@ export class AccessRequestComponent implements OnInit {
 
 postCompletedAccessRequest() {
   const completedAccessRequest: CompletedAccessRequest = {
-    requestId: 0,
+    requestId: this.accessRequest.requestId,
     data: this.accessRequest.dataTypeList
-      .flatMap(dataType => dataType.data.filter(data => data.answerByData))
-      .map(selectedData => ({ dataId: selectedData.dataId, attributeName: selectedData.attributeName })),
+      .flatMap(dataType => dataType.data.filter(data => data.answerByData)),
     providerClaim: `${this.providerClaim}<br>${Object.keys(this.selectedProviderClaims)
       .filter(dataId => this.selectedProviderClaims[dataId] != null && this.isDataUnselected(dataId))
       .map(dataId => `- ${this.getDataNameById(dataId)}: ${this.selectedProviderClaims[dataId]}`)

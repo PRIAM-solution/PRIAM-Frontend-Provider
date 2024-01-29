@@ -13,6 +13,6 @@ export class PostAccessService {
   private baseUrl = environment.api_right;
 
   postCompletedAccessRequest(completedAccessRequest: CompletedAccessRequest): Observable<CompletedAccessRequest> {
-    return this.httpClient.post<CompletedAccessRequest>(`${this.baseUrl}/right/postCompletedAccessRequest`, completedAccessRequest);
+    return this.httpClient.post<CompletedAccessRequest>(`${this.baseUrl}/right/answer`, completedAccessRequest);
   }
 }

@@ -20,6 +20,6 @@ export class GetAccessService {
   }
 
   getSelectedAccessRequestAnswer(requestId: number): Observable<RequestAnswer> {
-    return this.httpClient.get<RequestAnswer>(`${this.baseUrl}/right/getSelectedAccessRequestAnswer`);
+    return this.httpClient.get<RequestAnswer>(`${this.baseUrl}/right/answer/${requestId}`);
   }
 }

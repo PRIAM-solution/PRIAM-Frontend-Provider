@@ -16,7 +16,7 @@
 </table>
 
 <p>User Claim: {{ rectificationRequest.claim }}</p>
-<p *ngIf="response">Provider Claim: {{ rectificationRequestAnswer.providerClaim }}</p>
+<p *ngIf="response">Provider Claim: {{ rectificationRequestAnswer.answerClaim }}</p>
 
 <h1 *ngIf="response" [style.color]="rectificationRequestAnswer.answerType === 'Accepted' ? 'green' : (rectificationRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ rectificationRequestAnswer.answerType }}</h1>
 

@@ -31,7 +31,6 @@ export class RectificationComponent {
   ) {}
 
   ngOnInit() {
-    this.response = this.getDashboardService.selectedRequest.response;
     this.getSelectedRectificationRequest();
   }
 
@@ -44,12 +43,9 @@ export class RectificationComponent {
         this.rectificationRequest = response;
         this.successErrorService.handleSuccess('getSelectedRectificationRequest', response);
 
-        if (this.response) {
-          this.getSelectedRectificationRequestAnswer();
-        }
-        else {
+        this.getSelectedRectificationRequestAnswer();
+        if(!this.response)
           this.getCurrentValue();
-        }
       },
       error => {
         this.successErrorService.handleError('getSelectedRectificationRequest', error);
@@ -60,9 +56,11 @@ export class RectificationComponent {
   getSelectedRectificationRequestAnswer() {
     this.getRectificationService.getSelectedRectificationRequestAnswer(this.getDashboardService.selectedRequest.requestId).subscribe(
       response => {
-        console.log(response)
-        this.rectificationRequestAnswer = response;
-        this.successErrorService.handleSuccess('getSelectedRectificationRequestAnswer', response);
+        if(response != null) {
+          this.response = true;
+          this.rectificationRequestAnswer = response;
+          this.successErrorService.handleSuccess('getSelectedRectificationRequestAnswer', response);
+        }
       },
       error => {
         this.successErrorService.handleError('getSelectedRectificationRequestAnswer', error);
@@ -84,7 +82,7 @@ export class RectificationComponent {
 
   postCompletedRectificationRequest() {
     const completedRectificationRequest: CompletedRectificationSuppressionRequest = {
-      requestId: 0,
+      requestId: this.rectificationRequest.requestId,
       providerClaim: this.providerClaim,
       answer: this.providerAnswer,
     };

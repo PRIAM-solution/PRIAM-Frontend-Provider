@@ -1,6 +1,6 @@
 export interface RequestAnswer {
   requestId: number;
-  providerClaim: string;
+  answerClaim: string;
   answerType: string;
   issuedAt: Date;
 }

@@ -16,7 +16,7 @@
 </table>
 
 <p>User Claim: {{ suppressionRequest.claim }}</p>
-<p *ngIf="response">Provider Claim: {{ suppressionRequestAnswer.providerClaim }}</p>
+<p *ngIf="response">Provider Claim: {{ suppressionRequestAnswer.answerClaim }}</p>
 
 <h1 *ngIf="response" [style.color]="suppressionRequestAnswer.answerType === 'Accepted' ? 'green' : (suppressionRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ suppressionRequestAnswer.answerType }}</h1>
 
