@@ -9,9 +9,9 @@
 
       <mat-selection-list [(ngModel)]="selectedRequestTypes" (selectionChange)="onRequestTypeChange()">
         <h3 matListItemTitle>Request Types</h3>
-        <mat-list-option [value]="'Access'">Access</mat-list-option>
-        <mat-list-option [value]="'Rectification'">Rectification</mat-list-option>
-        <mat-list-option [value]="'Erasure'">Suppression</mat-list-option>
+        <mat-list-option [value]="'ACCESS'">Access</mat-list-option>
+        <mat-list-option [value]="'RECTIFICATION'">Rectification</mat-list-option>
+        <mat-list-option [value]="'ERASURE'">Suppression</mat-list-option>
       </mat-selection-list>
 
       <mat-selection-list [(ngModel)]="selectedDataSubjectCategories" (selectionChange)="onDataSubjectCategoryChange()">
@@ -28,12 +28,12 @@
   <mat-drawer-content style="overflow-y: auto;">
     <div *ngIf="requests && requests.length > 0; else noRequests">
       <div *ngFor="let request of requests">
-        <button mat-flat-button class="request-button" [color]="isDateThreeWeeksOlder(request.issuedAt) ? 'accent' : 'primary'" (click)="getSelectedRequest(request.requestId, request.requestType, request.response)">
+        <button mat-flat-button class="request-button" [color]="isDateThreeWeeksOlder(request.dataRequestIssuedAt) ? 'accent' : 'primary'" (click)="getSelectedRequest(request.dataRequestId, request.dataRequestType, request.response)">
           <span style="display: flex; align-items: center;">
-            {{ request.requestId }}
-            {{ request.requestType }}
+            {{ request.dataRequestId }}
+            {{ request.dataRequestType }}
             {{ request.dataSubjectCategory.dataSubjectCategoryName }}
-            {{ request.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}
+            {{ request.dataRequestIssuedAt | date:'dd/MM/yyyy HH:mm:ss' }}
             <i class="material-icons" style="font-size: 6vh;">{{ request.response ? 'check_circle' : 'cancel' }}</i>
           </span>
         </button>

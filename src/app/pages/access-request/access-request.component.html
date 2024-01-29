@@ -7,15 +7,15 @@
     <th>Categories</th>
   </tr>
   <tr>
-    <td>{{ accessRequest.requestId }}</td>
-    <td>{{ accessRequest.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-    <td *ngIf="response">{{ accessRequestAnswer.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-    <td>{{ accessRequest.dataSubject.referenceId }}</td>
+    <td>{{ accessRequest.dataRequestId }}</td>
+    <td>{{ accessRequest.dataRequestIssuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+<!--    <td *ngIf="response">{{ accessRequestAnswer.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>-->
+    <td>{{ accessRequest.dataSubject.idRef }}</td>
     <td>{{ accessRequest.dataSubject.dataSubjectCategoryName }}</td>
   </tr>
 </table>
 
-<p>User Claim: {{ accessRequest.claim }}</p>
+<p>User Claim: {{ accessRequest.dataRequestClaim }}</p>
 <p *ngIf="response">Provider Claim: {{ accessRequestAnswer.answerClaim }}</p>
 
 <h1 *ngIf="response" [style.color]="accessRequestAnswer.answerType === 'Accepted' ? 'green' : (accessRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ accessRequestAnswer.answerType }}</h1>
@@ -40,10 +40,10 @@
       <td>
         <div *ngFor="let data of dataType.data">
           <mat-slide-toggle *ngIf="!response; else noDataToggle" [checked]="data.answerByData" (change)="onChange($event, 'data', dataType, data)">
-            {{ data.attributeName }}
+            {{ data.dataName }}
           </mat-slide-toggle>
           <ng-template #noDataToggle>
-            <span [style.color]="data.answerByData ? 'green' : 'red'">{{ data.attributeName }}</span>
+            <span [style.color]="data.answerByData ? 'green' : 'red'">{{ data.dataName }}</span>
           </ng-template>
           <mat-form-field *ngIf="!data.answerByData && !response">
             <mat-label>Select Claim</mat-label>

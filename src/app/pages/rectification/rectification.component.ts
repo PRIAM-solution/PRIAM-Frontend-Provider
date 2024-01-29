@@ -3,7 +3,7 @@ import { GetRectificationService } from '../../shared/services/api/rights/rectif
 import { PostRectificationService } from '../../shared/services/api/rights/rectification/post-rectification/post-rectification.service';
 import { GetDashboardService } from '../../shared/services/api/dashboard/get-dashboard/get-dashboard.service';
 import { RequestData } from '../../interfaces/request-data';
-import { RequestAnswer } from '../../interfaces/request-answer';
+import { DataRequestAnswer } from '../../interfaces/data-request-answer';
 import { CurrentValue } from '../../interfaces/current-value';
 import { CompletedRectificationSuppressionRequest } from '../../interfaces/completed-rectification-suppression-request';
 import { SuccessErrorService } from '../../shared/services/success-error/success-error.service';
@@ -16,7 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class RectificationComponent {
   rectificationRequest!: RequestData;
-  rectificationRequestAnswer!: RequestAnswer;
+  rectificationRequestAnswer!: DataRequestAnswer;
   response: boolean = false;
   providerAnswer: boolean = false;
   providerClaim: string = '';
@@ -36,8 +36,7 @@ export class RectificationComponent {
 
   getSelectedRectificationRequest() {
     this.getRectificationService.getSelectedRectificationRequest(
-      this.getDashboardService.selectedRequest.requestId,
-      this.getDashboardService.selectedRequest.requestType
+      this.getDashboardService.selectedRequest.dataRequestId
     ).subscribe(
       response => {
         this.rectificationRequest = response;
@@ -54,7 +53,7 @@ export class RectificationComponent {
   }
 
   getSelectedRectificationRequestAnswer() {
-    this.getRectificationService.getSelectedRectificationRequestAnswer(this.getDashboardService.selectedRequest.requestId).subscribe(
+    this.getRectificationService.getSelectedRectificationRequestAnswer(this.getDashboardService.selectedRequest.dataRequestId).subscribe(
       response => {
         if(response != null) {
           this.response = true;
@@ -69,7 +68,10 @@ export class RectificationComponent {
   }
 
   getCurrentValue() {
-    this.getRectificationService.getCurrentValue(this.rectificationRequest.dataSubject.referenceId, this.rectificationRequest.dataTypeList[0].data[0].attributeName, this.rectificationRequest.dataTypeList[0].data[0].primaryKeys).subscribe(
+    console.log("HERE")
+    console.log(this.rectificationRequest.dataSubject.idRef, this.rectificationRequest.dataTypeList[0].data[0].dataName)
+    console.log("FIN")
+    this.getRectificationService.getCurrentValue(this.rectificationRequest.dataSubject.idRef, this.rectificationRequest.dataTypeList[0].data[0].dataName, this.rectificationRequest.dataTypeList[0].data[0].primaryKeys).subscribe(
       response => {
         this.currentValue = response.value;
         this.successErrorService.handleSuccess('getCurrentValue', response);
@@ -82,7 +84,7 @@ export class RectificationComponent {
 
   postCompletedRectificationRequest() {
     const completedRectificationRequest: CompletedRectificationSuppressionRequest = {
-      requestId: this.rectificationRequest.requestId,
+      dataRequestId: this.rectificationRequest.dataRequestId,
       providerClaim: this.providerClaim,
       answer: this.providerAnswer,
     };

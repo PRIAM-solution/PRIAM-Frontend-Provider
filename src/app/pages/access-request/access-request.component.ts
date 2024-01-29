@@ -5,7 +5,7 @@ import {GetDashboardService} from '../../shared/services/api/dashboard/get-dashb
 import {SlideToggleService} from '../../shared/services/slide-toggle/slide-toggle.service';
 import {MatSlideToggleChange} from '@angular/material/slide-toggle';
 import {RequestData} from '../../interfaces/request-data';
-import {RequestAnswer} from '../../interfaces/request-answer';
+import {DataRequestAnswer} from '../../interfaces/data-request-answer';
 import {CompletedAccessRequest} from '../../interfaces/completed-access-request';
 import {SuccessErrorService} from '../../shared/services/success-error/success-error.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -17,7 +17,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class AccessRequestComponent implements OnInit {
   accessRequest!: RequestData;
-  accessRequestAnswer!: RequestAnswer;
+  accessRequestAnswer!: DataRequestAnswer;
   response: boolean = false;
   providerDataClaims: string[] = ["","NON JE VEUX PAS >:(", "C'EST A MOI MTN!", "J'PARTAGE PAS!"];
   providerClaim: string = '';
@@ -38,8 +38,7 @@ export class AccessRequestComponent implements OnInit {
 
   getSelectedAccessRequest() {
     this.getAccessService.getSelectedAccessRequest(
-      this.getDashboardService.selectedRequest.requestId,
-      this.getDashboardService.selectedRequest.requestType
+      this.getDashboardService.selectedRequest.dataRequestId
     ).subscribe(
       response => {
         this.accessRequest = response;
@@ -54,7 +53,7 @@ export class AccessRequestComponent implements OnInit {
   }
 
   getSelectedAccessRequestAnswer() {
-    this.getAccessService.getSelectedAccessRequestAnswer(this.getDashboardService.selectedRequest.requestId).subscribe(
+    this.getAccessService.getSelectedAccessRequestAnswer(this.getDashboardService.selectedRequest.dataRequestId).subscribe(
       response => {
         if(response != null) {
           this.response = true;
@@ -99,12 +98,12 @@ export class AccessRequestComponent implements OnInit {
       .flatMap(dataType => dataType.data)
       .find(data => data.dataId.toString() === dataId);
 
-    return data ? data.attributeName : '';
+    return data ? data.dataName : '';
   }
 
 postCompletedAccessRequest() {
   const completedAccessRequest: CompletedAccessRequest = {
-    requestId: this.accessRequest.requestId,
+    dataRequestId: this.accessRequest.dataRequestId,
     data: this.accessRequest.dataTypeList
       .flatMap(dataType => dataType.data.filter(data => data.answerByData)),
     providerClaim: `${this.providerClaim}<br>${Object.keys(this.selectedProviderClaims)

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AccessRequestService } from './access-request.service';
+import { GetAccessService } from './get-access.service';
 
 describe('AccessRequestService', () => {
-  let service: AccessRequestService;
+  let service: GetAccessService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AccessRequestService);
+    service = TestBed.inject(GetAccessService);
   });
 
   it('should be created', () => {

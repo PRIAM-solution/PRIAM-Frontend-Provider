@@ -5,7 +5,7 @@ interface PrimaryKey {
 
 interface Data {
   dataId: number;
-  attributeName: string;
+  dataName: string;
   answerByData: boolean;
   primaryKeys: Map<String, String>;
 }
@@ -19,7 +19,7 @@ interface DataType {
 
 interface DataSubject {
   dataSubjectId: number;
-  referenceId: string;
+  idRef: string;
   dataSubjectCategoryName: string;
 }
 
@@ -34,11 +34,11 @@ interface DataSubject {
 // }
 
 export interface RequestData {
-  requestId: number;
+  dataRequestId: number;
   typeRequest: String;
   response: boolean;
-  claim: string;
-  issuedAt: Date;
+  dataRequestClaim: string;
+  dataRequestIssuedAt: Date;
   newValue?: any;
   isIsolated: boolean;
   dataSubject: DataSubject;

@@ -2,20 +2,20 @@
   <tr>
     <th>Request ID</th>
     <th>Issued At</th>
-    <th *ngIf="response">Completed At</th>
+<!--    <th *ngIf="response">Completed At</th>-->
     <th>Data Subject Reference ID</th>
     <th>Categories</th>
   </tr>
   <tr>
-    <td>{{ rectificationRequest.requestId }}</td>
-    <td>{{ rectificationRequest.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-    <td *ngIf="response">{{ rectificationRequestAnswer.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-    <td>{{ rectificationRequest.dataSubject.referenceId }}</td>
+    <td>{{ rectificationRequest.dataRequestId }}</td>
+    <td>{{ rectificationRequest.dataRequestIssuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+<!--    <td *ngIf="response">{{ rectificationRequestAnswer.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>-->
+    <td>{{ rectificationRequest.dataSubject.idRef }}</td>
     <td>{{ rectificationRequest.dataSubject.dataSubjectCategoryName }}</td>
   </tr>
 </table>
 
-<p>User Claim: {{ rectificationRequest.claim }}</p>
+<p>User Claim: {{ rectificationRequest.dataRequestClaim }}</p>
 <p *ngIf="response">Provider Claim: {{ rectificationRequestAnswer.answerClaim }}</p>
 
 <h1 *ngIf="response" [style.color]="rectificationRequestAnswer.answerType === 'Accepted' ? 'green' : (rectificationRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ rectificationRequestAnswer.answerType }}</h1>

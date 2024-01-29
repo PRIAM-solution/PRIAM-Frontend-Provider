@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {DataValue, RequestData} from '../../../../../../interfaces/request-data';
-import { RequestAnswer } from '../../../../../../interfaces/request-answer';
+import { DataRequestAnswer } from '../../../../../../interfaces/data-request-answer';
 import { CurrentValue } from '../../../../../../interfaces/current-value';
 import {environment} from "../../../../../../../environment/environment";
 
@@ -16,18 +16,18 @@ export class GetSuppressionService {
   private baseUrlRight = environment.api_right;
   private baseUrlProvider = environment.api_provider;
 
-  getSelectedSuppressionRequest(requestId: number, requestType: string): Observable<RequestData> {
-    return this.httpClient.get<RequestData>(`${this.baseUrlRight}/right/requestDetail/${requestId}`);
+  getSelectedSuppressionRequest(dataRequestId: number): Observable<RequestData> {
+    return this.httpClient.get<RequestData>(`${this.baseUrlRight}/right/requestDetail/${dataRequestId}`);
   }
 
-  getSelectedSuppressionRequestAnswer(requestId: number): Observable<RequestAnswer> {
-    return this.httpClient.get<RequestAnswer>(`${this.baseUrlRight}/right/answer/${requestId}`);
+  getSelectedSuppressionRequestAnswer(dataRequestId: number): Observable<DataRequestAnswer> {
+    return this.httpClient.get<DataRequestAnswer>(`${this.baseUrlRight}/right/answer/${dataRequestId}`);
   }
 
-  getCurrentValue(referenceId: string, attributeName: string, primaryKeys: Map<String, String>): Observable<DataValue> {
+  getCurrentValue(idRef: string, dataName: string, primaryKeys: Map<String, String>): Observable<DataValue> {
     let data = {
-      referenceId: referenceId,
-      attributeName: attributeName,
+      idRef: idRef,
+      dataName: dataName,
       primaryKeys: primaryKeys
     }
     return this.httpClient.post<DataValue>(`${this.baseUrlProvider}/api/dataValue`, data);

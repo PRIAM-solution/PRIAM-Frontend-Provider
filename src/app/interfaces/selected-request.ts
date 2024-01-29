@@ -1,5 +1,5 @@
 export interface SelectedRequest {
-  requestId: number;
-  requestType: string;
+  dataRequestId: number;
+  dataRequestType: string;
   response: boolean;
 }

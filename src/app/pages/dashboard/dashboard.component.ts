@@ -20,9 +20,9 @@ export class DashboardComponent implements OnInit {
   selectedDataSubjectCategories: DataSubjectCategory[] = this.dataSubjectCategories;
   requests: Request[] = [];
   typeToRouteMap: Map<string, string> = new Map([
-    ['Access', '/access-request'],
-    ['Rectification', '/rectification'],
-    ['Erasure', '/suppression'],
+    ['ACCESS', '/access-request'],
+    ['RECTIFICATION', '/rectification'],
+    ['ERASURE', '/suppression'],
   ]);
 
   constructor(
@@ -88,7 +88,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getSelectedRequest(requestId: number, requestType: string, response: boolean) {
-    this.getDashboardService.selectedRequest = { requestId, requestType, response };
+    this.getDashboardService.selectedRequest = { dataRequestId: requestId, dataRequestType: requestType, response };
     const routePath = this.typeToRouteMap.get(requestType);
     this.router.navigate([routePath]);
   }

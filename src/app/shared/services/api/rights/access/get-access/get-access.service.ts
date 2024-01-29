@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RequestData } from '../../../../../../interfaces/request-data';
-import { RequestAnswer } from '../../../../../../interfaces/request-answer';
+import { DataRequestAnswer } from '../../../../../../interfaces/data-request-answer';
 import {environment} from "../../../../../../../environment/environment";
 
 @Injectable({
@@ -15,11 +15,11 @@ export class GetAccessService {
 
   private baseUrl = environment.api_right;
 
-  getSelectedAccessRequest(requestId: number, requestType: string): Observable<RequestData> {
-    return this.httpClient.get<RequestData>(`${this.baseUrl}/right/requestDetail/${requestId}`);
+  getSelectedAccessRequest(dataRequestId: number): Observable<RequestData> {
+    return this.httpClient.get<RequestData>(`${this.baseUrl}/right/requestDetail/${dataRequestId}`);
   }
 
-  getSelectedAccessRequestAnswer(requestId: number): Observable<RequestAnswer> {
-    return this.httpClient.get<RequestAnswer>(`${this.baseUrl}/right/answer/${requestId}`);
+  getSelectedAccessRequestAnswer(dataRequestId: number): Observable<DataRequestAnswer> {
+    return this.httpClient.get<DataRequestAnswer>(`${this.baseUrl}/right/answer/${dataRequestId}`);
   }
 }

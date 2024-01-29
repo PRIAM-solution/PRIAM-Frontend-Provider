@@ -3,7 +3,7 @@ interface Data {
 }
 
 export interface CompletedAccessRequest {
-  requestId: number;
+  dataRequestId: number;
   providerClaim: string;
   data: Data[];
 }
