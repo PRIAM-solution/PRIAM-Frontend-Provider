@@ -1,5 +1,5 @@
 export interface DataRequestAnswer {
-  dataRequestId: number;
-  answerClaim: string;
-  answerType: string;
+  dataRequestAnswerId: number;
+  dataRequestClaim: string;
+  answer: string;
 }

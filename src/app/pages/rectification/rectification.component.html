@@ -16,9 +16,9 @@
 </table>
 
 <p>User Claim: {{ rectificationRequest.dataRequestClaim }}</p>
-<p *ngIf="response">Provider Claim: {{ rectificationRequestAnswer.answerClaim }}</p>
+<p *ngIf="response">Provider Claim: {{ rectificationRequestAnswer.dataRequestClaim }}</p>
 
-<h1 *ngIf="response" [style.color]="rectificationRequestAnswer.answerType === 'Accepted' ? 'green' : (rectificationRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ rectificationRequestAnswer.answerType }}</h1>
+<h1 *ngIf="response" [style.color]="rectificationRequestAnswer.answer === 'Accepted' ? 'green' : (rectificationRequestAnswer.answer === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ rectificationRequestAnswer.answer }}</h1>
 
 <table>
   <tr>

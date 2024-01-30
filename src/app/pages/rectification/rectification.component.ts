@@ -68,9 +68,6 @@ export class RectificationComponent {
   }
 
   getCurrentValue() {
-    console.log("HERE")
-    console.log(this.rectificationRequest.dataSubject.idRef, this.rectificationRequest.dataTypeList[0].data[0].dataName)
-    console.log("FIN")
     this.getRectificationService.getCurrentValue(this.rectificationRequest.dataSubject.idRef, this.rectificationRequest.dataTypeList[0].data[0].dataName, this.rectificationRequest.dataTypeList[0].data[0].primaryKeys).subscribe(
       response => {
         this.currentValue = response.value;

@@ -16,9 +16,9 @@
 </table>
 
 <p>User Claim: {{ accessRequest.dataRequestClaim }}</p>
-<p *ngIf="response">Provider Claim: {{ accessRequestAnswer.answerClaim }}</p>
+<p *ngIf="response">Provider Claim: {{ accessRequestAnswer.dataRequestClaim }}</p>
 
-<h1 *ngIf="response" [style.color]="accessRequestAnswer.answerType === 'Accepted' ? 'green' : (accessRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ accessRequestAnswer.answerType }}</h1>
+<h1 *ngIf="response" [style.color]="accessRequestAnswer.answer === 'Accepted' ? 'green' : (accessRequestAnswer.answer === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ accessRequestAnswer.answer }}</h1>
 
 <table>
   <thead>

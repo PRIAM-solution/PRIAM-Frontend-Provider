@@ -16,9 +16,9 @@
 </table>
 
 <p>User Claim: {{ suppressionRequest.dataRequestClaim }}</p>
-<p *ngIf="response">Provider Claim: {{ suppressionRequestAnswer.answerClaim }}</p>
+<p *ngIf="response">Provider Claim: {{ suppressionRequestAnswer.dataRequestClaim }}</p>
 
-<h1 *ngIf="response" [style.color]="suppressionRequestAnswer.answerType === 'Accepted' ? 'green' : (suppressionRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ suppressionRequestAnswer.answerType }}</h1>
+<h1 *ngIf="response" [style.color]="suppressionRequestAnswer.answer === 'Accepted' ? 'green' : (suppressionRequestAnswer.answer === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ suppressionRequestAnswer.answer }}</h1>
 
 <table>
   <tr>
