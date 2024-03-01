@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { GetAccessService } from '../../shared/services/api/rights/access/get-access/get-access.service';
-import { PostAccessService } from '../../shared/services/api/rights/access/post-access/post-access.service';
-import { GetDashboardService } from '../../shared/services/api/dashboard/get-dashboard/get-dashboard.service';
-import { SlideToggleService } from '../../shared/services/slide-toggle/slide-toggle.service';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { RequestData } from '../../interfaces/request-data';
-import { RequestAnswer } from '../../interfaces/request-answer';
-import { CompletedAccessRequest } from '../../interfaces/completed-access-request';
-import { SuccessErrorService } from '../../shared/services/success-error/success-error.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ACCESS_REQUEST } from './exemple-tempo';
-import { ACCESS_REQUEST_ANSWER } from './exemple-tempo';
+import {Component, OnInit} from '@angular/core';
+import {GetAccessService} from '../../shared/services/api/rights/access/get-access/get-access.service';
+import {PostAccessService} from '../../shared/services/api/rights/access/post-access/post-access.service';
+import {GetDashboardService} from '../../shared/services/api/dashboard/get-dashboard/get-dashboard.service';
+import {SlideToggleService} from '../../shared/services/slide-toggle/slide-toggle.service';
+import {MatSlideToggleChange} from '@angular/material/slide-toggle';
+import {RequestData} from '../../interfaces/request-data';
+import {DataRequestAnswer} from '../../interfaces/data-request-answer';
+import {CompletedAccessRequest} from '../../interfaces/completed-access-request';
+import {SuccessErrorService} from '../../shared/services/success-error/success-error.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-access-request',
@@ -18,11 +16,11 @@ import { ACCESS_REQUEST_ANSWER } from './exemple-tempo';
   styleUrls: ['./access-request.component.css']
 })
 export class AccessRequestComponent implements OnInit {
-  accessRequest: RequestData = ACCESS_REQUEST;
-  accessRequestAnswer: RequestAnswer = ACCESS_REQUEST_ANSWER;
-  response!: boolean;
+  accessRequest!: RequestData;
+  accessRequestAnswer!: DataRequestAnswer;
+  response: boolean = false;
   providerDataClaims: string[] = ["","NON JE VEUX PAS >:(", "C'EST A MOI MTN!", "J'PARTAGE PAS!"];
-  providerClaim: string = 'Bonjour comment ca va? :>';
+  providerClaim: string = '';
   selectedProviderClaims: { [key: string]: string } = {};
 
   constructor(
@@ -35,21 +33,18 @@ export class AccessRequestComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.response = this.getDashboardService.selectedRequest.response;
     this.getSelectedAccessRequest();
-    if (this.response) {
-      this.getSelectedAccessRequestAnswer();
-    }
   }
 
   getSelectedAccessRequest() {
     this.getAccessService.getSelectedAccessRequest(
-      this.getDashboardService.selectedRequest.requestId,
-      this.getDashboardService.selectedRequest.requestType
+      this.getDashboardService.selectedRequest.dataRequestId
     ).subscribe(
       response => {
         this.accessRequest = response;
         this.successErrorService.handleSuccess('getSelectedAccessRequest', response);
+
+        this.getSelectedAccessRequestAnswer();
       },
       error => {
         this.successErrorService.handleError('getSelectedAccessRequest', error);
@@ -58,10 +53,13 @@ export class AccessRequestComponent implements OnInit {
   }
 
   getSelectedAccessRequestAnswer() {
-    this.getAccessService.getSelectedAccessRequestAnswer(this.getDashboardService.selectedRequest.requestId).subscribe(
+    this.getAccessService.getSelectedAccessRequestAnswer(this.getDashboardService.selectedRequest.dataRequestId).subscribe(
       response => {
-        this.accessRequestAnswer = response;
-        this.successErrorService.handleSuccess('getSelectedAccessRequestAnswer', response);
+        if(response != null) {
+          this.response = true;
+          this.accessRequestAnswer = response;
+          this.successErrorService.handleSuccess('getSelectedAccessRequestAnswer', response);
+        }
       },
       error => {
         this.successErrorService.handleError('getSelectedAccessRequestAnswer', error);
@@ -70,8 +68,8 @@ export class AccessRequestComponent implements OnInit {
   }
 
   onChange($event: MatSlideToggleChange, toggleName: string, dataType: any, data: any) {
-    this.slideToggleService.onChange(this.accessRequest.dataTypes, $event, toggleName, dataType, data);
-    console.log("onChange(", $event.checked, ",", toggleName, ",", dataType.dataTypeName, ",", data.dataName, "): ", this.accessRequest.dataTypes);
+    this.slideToggleService.onChange(this.accessRequest.dataTypeList, $event, toggleName, dataType, data);
+    console.log("onChange(", $event.checked, ",", toggleName, ",", dataType.dataTypeName, ",", data.attributeName, "): ", this.accessRequest.dataTypeList);
   }
 
 
@@ -84,21 +82,19 @@ export class AccessRequestComponent implements OnInit {
       return true;
     }
 
-    const unselectedDataClaimsEmpty = this.accessRequest.dataTypes
-      .flatMap(dataType => dataType.data.filter(data => !data.answerByData))
-      .some(unselectedData => !this.selectedProviderClaims[unselectedData.dataId]?.trim());
-
-    return unselectedDataClaimsEmpty;
+    return this.accessRequest.dataTypeList
+        .flatMap(dataType => dataType.data.filter(data => !data.answerByData))
+        .some(unselectedData => !this.selectedProviderClaims[unselectedData.dataId]?.trim());
   }
 
   isDataUnselected(dataId: string): boolean {
-    return this.accessRequest.dataTypes.some(dataType =>
+    return this.accessRequest.dataTypeList.some(dataType =>
       dataType.data.some(data => data.dataId.toString() === dataId && !data.answerByData)
     );
   }
 
   getDataNameById(dataId: string): string {
-    const data = this.accessRequest.dataTypes
+    const data = this.accessRequest.dataTypeList
       .flatMap(dataType => dataType.data)
       .find(data => data.dataId.toString() === dataId);
 
@@ -107,10 +103,9 @@ export class AccessRequestComponent implements OnInit {
 
 postCompletedAccessRequest() {
   const completedAccessRequest: CompletedAccessRequest = {
-    requestId: 0,
-    data: this.accessRequest.dataTypes
-      .flatMap(dataType => dataType.data.filter(data => data.answerByData))
-      .map(selectedData => ({ dataId: selectedData.dataId, dataName: selectedData.dataName })),
+    dataRequestId: this.accessRequest.dataRequestId,
+    data: this.accessRequest.dataTypeList
+      .flatMap(dataType => dataType.data.filter(data => data.answerByData)),
     providerClaim: `${this.providerClaim}<br>${Object.keys(this.selectedProviderClaims)
       .filter(dataId => this.selectedProviderClaims[dataId] != null && this.isDataUnselected(dataId))
       .map(dataId => `- ${this.getDataNameById(dataId)}: ${this.selectedProviderClaims[dataId]}`)
@@ -133,4 +128,5 @@ postCompletedAccessRequest() {
       console.log("[Error] postCompletedAccessRequest()", error);
     }
   );
-}}
+ }
+}

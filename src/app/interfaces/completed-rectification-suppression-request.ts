@@ -1,5 +1,5 @@
 export interface CompletedRectificationSuppressionRequest {
-  requestId: number;
+  dataRequestId: number;
   providerClaim: string;
   answer: boolean;
 }

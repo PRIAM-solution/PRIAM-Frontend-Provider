@@ -2,23 +2,23 @@
   <tr>
     <th>Request ID</th>
     <th>Issued At</th>
-    <th *ngIf="response">Completed At</th>
+<!--    <th *ngIf="response">Completed At</th>-->
     <th>Data Subject Reference ID</th>
     <th>Categories</th>
   </tr>
   <tr>
-    <td>{{ rectificationRequest.requestId }}</td>
-    <td>{{ rectificationRequest.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-    <td *ngIf="response">{{ rectificationRequestAnswer.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-    <td>{{ rectificationRequest.dataSubject.referenceId }}</td>
-    <td>{{ rectificationRequest.dataSubject.dataSubjectCategory.dataSubjectCategoryName }}</td>
+    <td>{{ rectificationRequest.dataRequestId }}</td>
+    <td>{{ rectificationRequest.dataRequestIssuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+<!--    <td *ngIf="response">{{ rectificationRequestAnswer.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>-->
+    <td>{{ rectificationRequest.dataSubject.idRef }}</td>
+    <td>{{ rectificationRequest.dataSubject.dataSubjectCategoryName }}</td>
   </tr>
 </table>
 
-<p>User Claim: {{ rectificationRequest.userClaim }}</p>
-<p *ngIf="response">Provider Claim: {{ rectificationRequestAnswer.providerClaim }}</p>
+<p>User Claim: {{ rectificationRequest.dataRequestClaim }}</p>
+<p *ngIf="response">Provider Claim: {{ rectificationRequestAnswer.dataRequestClaim }}</p>
 
-<h1 *ngIf="response" [style.color]="rectificationRequestAnswer.answerType === 'Accepted' ? 'green' : (rectificationRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ rectificationRequestAnswer.answerType }}</h1>
+<h1 *ngIf="response" [style.color]="rectificationRequestAnswer.answer === 'Accepted' ? 'green' : (rectificationRequestAnswer.answer === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ rectificationRequestAnswer.answer }}</h1>
 
 <table>
   <tr>
@@ -26,7 +26,7 @@
     <th>New Value</th>
   </tr>
   <tr>
-    <td *ngIf=!response>{{ currentValue.currentValue }}</td>
+    <td *ngIf=!response>{{ currentValue }}</td>
     <td>{{ rectificationRequest.newValue }}</td>
   </tr>
 </table>
@@ -42,7 +42,7 @@
   </mat-form-field>
 </div>
 
-<button mat-flat-button *ngIf="!response; else noDataButton" color="primary" [disabled]="providerAnswer === undefined || providerClaim === ''" (click)="response ? null : postCompletedRectificationRequest()" routerLink="/dashboard"><i class="material-icons">check_circle</i></button>
+<button mat-flat-button *ngIf="!response; else noDataButton" color="primary" [disabled]="!providerAnswer || providerClaim === ''" (click)="response ? null : postCompletedRectificationRequest()" routerLink="/dashboard"><i class="material-icons">check_circle</i></button>
 <ng-template #noDataButton>
   <button mat-flat-button color="primary" routerLink="/dashboard"><i class="material-icons">check_circle</i></button>
 </ng-template>

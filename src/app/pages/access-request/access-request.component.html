@@ -7,18 +7,18 @@
     <th>Categories</th>
   </tr>
   <tr>
-    <td>{{ accessRequest.requestId }}</td>
-    <td>{{ accessRequest.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-    <td *ngIf="response">{{ accessRequestAnswer.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-    <td>{{ accessRequest.dataSubject.referenceId }}</td>
-    <td>{{ accessRequest.dataSubject.dataSubjectCategory.dataSubjectCategoryName }}</td>
+    <td>{{ accessRequest.dataRequestId }}</td>
+    <td>{{ accessRequest.dataRequestIssuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+<!--    <td *ngIf="response">{{ accessRequestAnswer.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>-->
+    <td>{{ accessRequest.dataSubject.idRef }}</td>
+    <td>{{ accessRequest.dataSubject.dataSubjectCategoryName }}</td>
   </tr>
 </table>
 
-<p>User Claim: {{ accessRequest.userClaim }}</p>
-<p *ngIf="response">Provider Claim: {{ accessRequestAnswer.providerClaim }}</p>
+<p>User Claim: {{ accessRequest.dataRequestClaim }}</p>
+<p *ngIf="response">Provider Claim: {{ accessRequestAnswer.dataRequestClaim }}</p>
 
-<h1 *ngIf="response" [style.color]="accessRequestAnswer.answerType === 'Accepted' ? 'green' : (accessRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ accessRequestAnswer.answerType }}</h1>
+<h1 *ngIf="response" [style.color]="accessRequestAnswer.answer === 'Accepted' ? 'green' : (accessRequestAnswer.answer === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ accessRequestAnswer.answer }}</h1>
 
 <table>
   <thead>
@@ -28,7 +28,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let dataType of accessRequest.dataTypes">
+    <tr *ngFor="let dataType of accessRequest.dataTypeList">
       <td>
         <mat-slide-toggle *ngIf="!response; else noDataTypeToggle" [checked]="dataType.answerByData" (change)="onChange($event, 'dataType', dataType, '')">
           {{ dataType.dataTypeName }}

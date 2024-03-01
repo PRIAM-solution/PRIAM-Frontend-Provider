@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DataSubjectCategory } from '../../../../../interfaces/data-subject-category';
 import { RequestFilter } from '../../../../../interfaces/request-filter';
 import { Request } from '../../../../../interfaces/request';
 import { SelectedRequest } from '../../../../../interfaces/selected-request';
+import {environment} from "../../../../../../environment/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,15 @@ export class GetDashboardService {
   selectedRequest!: SelectedRequest;
 
   getDataSubjectCategory(): Observable<DataSubjectCategory[]> {
-    return this.httpClient.get<DataSubjectCategory[]>(`${this.baseUrl}/actor/getDataSubjectCategory`);
+    return this.httpClient.get<DataSubjectCategory[]>(`${environment.api_actor}/actor/DataSubjectCategories`);
   }
 
   getFilteredRequests(requestFilter: RequestFilter): Observable<Request[]> {
-    return this.httpClient.get<Request[]>(`${this.baseUrl}/right/getRequests`);
+    let params = new HttpParams({fromObject: {
+        listOfSelectedTypeDataRequests: requestFilter.requestTypes,
+        listOfSelectedStatus: requestFilter.requestResponses,
+        listOfSelectedDataSubjectCategories: requestFilter.dataSubjectCategories.map(d => d.dataSubjectCategoryName)
+      }});
+    return this.httpClient.get<Request[]>(`${environment.api_right}/right/requestList`, {params: params});
   }
 }

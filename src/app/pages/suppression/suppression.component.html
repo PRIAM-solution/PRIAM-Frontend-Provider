@@ -7,25 +7,25 @@
     <th>Categories</th>
   </tr>
   <tr>
-    <td>{{ suppressionRequest.requestId }}</td>
-    <td>{{ suppressionRequest.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-    <td *ngIf="response">{{ suppressionRequestAnswer.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-    <td>{{ suppressionRequest.dataSubject.referenceId }}</td>
-    <td>{{ suppressionRequest.dataSubject.dataSubjectCategory.dataSubjectCategoryName }}</td>
+    <td>{{ suppressionRequest.dataRequestId }}</td>
+    <td>{{ suppressionRequest.dataRequestIssuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+<!--    <td *ngIf="response">{{ suppressionRequestAnswer.issuedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>-->
+    <td>{{ suppressionRequest.dataSubject.idRef }}</td>
+    <td>{{ suppressionRequest.dataSubject.dataSubjectCategoryName }}</td>
   </tr>
 </table>
 
-<p>User Claim: {{ suppressionRequest.userClaim }}</p>
-<p *ngIf="response">Provider Claim: {{ suppressionRequestAnswer.providerClaim }}</p>
+<p>User Claim: {{ suppressionRequest.dataRequestClaim }}</p>
+<p *ngIf="response">Provider Claim: {{ suppressionRequestAnswer.dataRequestClaim }}</p>
 
-<h1 *ngIf="response" [style.color]="suppressionRequestAnswer.answerType === 'Accepted' ? 'green' : (suppressionRequestAnswer.answerType === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ suppressionRequestAnswer.answerType }}</h1>
+<h1 *ngIf="response" [style.color]="suppressionRequestAnswer.answer === 'Accepted' ? 'green' : (suppressionRequestAnswer.answer === 'Partial' ? 'yellow' : 'red')">Answer Type: {{ suppressionRequestAnswer.answer }}</h1>
 
 <table>
   <tr>
     <th>Current Value</th>
   </tr>
   <tr>
-    <td>{{ currentValue.currentValue }}</td>
+    <td>{{ currentValue }}</td>
   </tr>
 </table>
 

@@ -4,13 +4,10 @@ import { PostSuppressionService } from '../../shared/services/api/rights/suppres
 import { GetDashboardService } from '../../shared/services/api/dashboard/get-dashboard/get-dashboard.service';
 import { RequestData } from '../../interfaces/request-data';
 import { CurrentValue } from '../../interfaces/current-value';
-import { RequestAnswer } from '../../interfaces/request-answer';
+import { DataRequestAnswer } from '../../interfaces/data-request-answer';
 import { CompletedRectificationSuppressionRequest } from '../../interfaces/completed-rectification-suppression-request';
 import { SuccessErrorService } from '../../shared/services/success-error/success-error.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SUPPRESSION_REQUEST } from './exemple-tempo';
-import { SUPPRESSION_REQUEST_ANSWER } from './exemple-tempo';
-import { CURRENT_VALUE } from './exemple-tempo';
 
 @Component({
   selector: 'app-suppression',
@@ -18,12 +15,12 @@ import { CURRENT_VALUE } from './exemple-tempo';
   styleUrls: ['./suppression.component.css']
 })
 export class SuppressionComponent {
-  suppressionRequest: RequestData = SUPPRESSION_REQUEST;
-  suppressionRequestAnswer: RequestAnswer = SUPPRESSION_REQUEST_ANSWER;
-  response!: boolean;
-  providerAnswer!: boolean;
-  providerClaim: string = 'CLAIM!';
-  currentValue: CurrentValue = CURRENT_VALUE;
+  suppressionRequest!: RequestData;
+  suppressionRequestAnswer!: DataRequestAnswer;
+  response: boolean = false;
+  providerAnswer: boolean = false;
+  providerClaim: string = '';
+  currentValue: String = "";
 
   constructor(
     private getSuppressionService: GetSuppressionService,
@@ -34,21 +31,20 @@ export class SuppressionComponent {
   ) {}
 
   ngOnInit() {
-    this.response = this.getDashboardService.selectedRequest.response;
     this.getSelectedSuppressionRequest();
-    if (this.response) {
-      this.getSelectedSuppressionRequestAnswer();
-    }
   }
 
   getSelectedSuppressionRequest() {
     this.getSuppressionService.getSelectedSuppressionRequest(
-      this.getDashboardService.selectedRequest.requestId,
-      this.getDashboardService.selectedRequest.requestType
+      this.getDashboardService.selectedRequest.dataRequestId
     ).subscribe(
       response => {
         this.suppressionRequest = response;
         this.successErrorService.handleSuccess('getSelectedSuppressionRequest', response);
+
+        this.getSelectedSuppressionRequestAnswer();
+        if(!this.response)
+          this.getCurrentValue();
       },
       error => {
         this.successErrorService.handleError('getSelectedSuppressionRequest', error);
@@ -57,10 +53,13 @@ export class SuppressionComponent {
   }
 
   getSelectedSuppressionRequestAnswer() {
-    this.getSuppressionService.getSelectedSuppressionRequestAnswer(this.getDashboardService.selectedRequest.requestId).subscribe(
+    this.getSuppressionService.getSelectedSuppressionRequestAnswer(this.getDashboardService.selectedRequest.dataRequestId).subscribe(
       response => {
-        this.suppressionRequestAnswer = response;
-        this.successErrorService.handleSuccess('getSelectedSuppressionRequestAnswer', response);
+        if(response != null) {
+          this.response = true;
+          this.suppressionRequestAnswer = response;
+          this.successErrorService.handleSuccess('getSelectedSuppressionRequestAnswer', response);
+        }
       },
       error => {
         this.successErrorService.handleError('getSelectedSuppressionRequestAnswer', error);
@@ -69,9 +68,9 @@ export class SuppressionComponent {
   }
 
   getCurrentValue() {
-    this.getSuppressionService.getCurrentValue(this.suppressionRequest.dataTypes[0].data[0].dataId).subscribe(
-      response => {
-        this.currentValue = response;
+    this.getSuppressionService.getCurrentValue(this.suppressionRequest.dataSubject.idRef, this.suppressionRequest.dataTypeList[0].data[0].dataName, this.suppressionRequest.dataTypeList[0].data[0].primaryKeys).subscribe(
+        response => {
+        this.currentValue = response.value;
         this.successErrorService.handleSuccess('getCurrentValue', response);
       },
       error => {
@@ -82,7 +81,7 @@ export class SuppressionComponent {
 
   postCompletedSuppressionRequest() {
     const completedSuppressionRequest: CompletedRectificationSuppressionRequest = {
-      requestId: 0,
+      dataRequestId: this.suppressionRequest.dataRequestId,
       providerClaim: this.providerClaim,
       answer: this.providerAnswer,
     };
