@@ -13,7 +13,7 @@ import {environment} from "../../../../../../environment/environment";
 export class GetDashboardService {
   constructor(private httpClient: HttpClient) { }
 
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = environment.keycloak || 'http://localhost:8080';
   selectedRequest!: SelectedRequest;
 
   getDataSubjectCategory(): Observable<DataSubjectCategory[]> {
