@@ -21,7 +21,7 @@ export class GetDashboardService {
   }
 
   getFilteredRequests(requestFilter: RequestFilter): Observable<Request[]> {
-    let params = new HttpParams({fromObject: {
+    const params = new HttpParams({fromObject: {
         listOfSelectedTypeDataRequests: requestFilter.requestTypes,
         listOfSelectedStatus: requestFilter.requestResponses,
         listOfSelectedDataSubjectCategories: requestFilter.dataSubjectCategories.map(d => d.dataSubjectCategoryName)
